@@ -1,6 +1,4 @@
 #pragma once
-
-
 #include "Pixel.h"
 
 class Image;
@@ -16,15 +14,20 @@ private:
 	void freeMemory();
 
 public:
-	ImageDataStructure(int h, int w);
-
+	ImageDataStructure(int h = 0, int w = 0, Pixel pixel = ' ');
 	ImageDataStructure(const ImageDataStructure& other);
 	~ImageDataStructure();
 
-	Pixel* operator[](int row) const {
-		if (row < 0 || row >= m_height) {
-			throw std::out_of_range("Row index out of range");
-		}
-		return m_data[row];
-	}
+	int getHeight() const;
+	int getWidth() const;
+
+	bool operator==(const ImageDataStructure& other) const;
+	bool operator!=(const ImageDataStructure& other) const;
+	ImageDataStructure operator+(const ImageDataStructure& other) const;
+	ImageDataStructure operator|(const ImageDataStructure& other) const;
+	ImageDataStructure operator&(const ImageDataStructure& other) const;
+	Pixel& operator()(unsigned int y, unsigned int x);
+	const Pixel& operator()(unsigned int y, unsigned int x) const;
+	ImageDataStructure operator~() const;
 };
+	

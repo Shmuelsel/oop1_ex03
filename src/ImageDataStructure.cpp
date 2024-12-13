@@ -1,12 +1,16 @@
 #include "ImageDataStructure.h"
-#include "Pixel.h"
-#include "Image.h"
 
+const unsigned char BLACK = (unsigned char)219;
+const unsigned char WHITE = (unsigned char)32;
 
-ImageDataStructure::ImageDataStructure(int h, int w) : m_height(h), m_width(w) {
+ImageDataStructure::ImageDataStructure(int h, int w, Pixel pixel) : m_height(h), m_width(w) {
 	allocateMemory(h, w);
+	for (int i = 0; i < h; ++i) {
+		for (int j = 0; j < w; ++j) {
+			m_data[i][j] = pixel;
+		}
+	}
 }
-
 
 ImageDataStructure::ImageDataStructure(const ImageDataStructure& other)
 	: m_height(other.m_height), m_width(other.m_width) {
@@ -17,7 +21,6 @@ ImageDataStructure::ImageDataStructure(const ImageDataStructure& other)
 		}
 	}
 }
-
 
 void ImageDataStructure::allocateMemory(int h, int w) {
 	
@@ -33,7 +36,133 @@ void ImageDataStructure::freeMemory() {
 	}
 	delete[] m_data;
 }
-//destructor
+
+int ImageDataStructure::getHeight() const {
+	return m_height;
+}
+
+int ImageDataStructure::getWidth() const {
+	return m_width;
+}
+
 ImageDataStructure::~ImageDataStructure() {
 	freeMemory();
 }
+
+bool ImageDataStructure::operator==(const ImageDataStructure& other) const {
+	if (m_height != other.m_height || m_width != other.m_width) {
+		return false;
+	}
+	for (int i = 0; i < m_height; ++i) {
+		for (int j = 0; j < m_width; ++j) {
+			if (m_data[i][j] != other.m_data[i][j]) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+
+bool ImageDataStructure::operator!=(const ImageDataStructure& other) const {
+	return !(*this == other);
+}
+
+ImageDataStructure ImageDataStructure::operator+(const ImageDataStructure& other) const {
+	int newHeight = std::max(getHeight(), other.getHeight());
+	int newWidth = getWidth() + other.getWidth();
+
+	ImageDataStructure result(newHeight, newWidth);
+
+	for (int i = 0; i < getHeight(); i++) {
+		for (int j = 0; j < getWidth(); j++) {
+			result.m_data[i][j] = m_data[i][j]; 
+		}
+	}
+
+	for (int i = 0; i < other.getHeight(); i++) {
+		for (int j = 0; j < other.getWidth(); j++) {
+			result.m_data[i][j + getWidth()] = other.m_data[i][j];
+		}
+	}
+
+	return result;
+}
+
+
+ImageDataStructure ImageDataStructure::operator|(const ImageDataStructure& other)const {
+	int newHeight = std::max(m_height, other.m_height);
+	int newWidth = std::max(m_width, other.m_width);
+
+	ImageDataStructure result(newHeight, newWidth);
+
+	for (int i = 0; i < newHeight; i++) {
+		for (int j = 0; j < newWidth; j++) {
+			result.m_data[i][j] | m_data[i][j];
+		}
+	}
+
+	for (int i = 0; i < other.getHeight(); i++) {
+		for (int j = 0; j < other.getWidth(); j++) {
+			result.m_data[i][j + getWidth()] | other.m_data[i][j]; 
+		}
+	}
+	return result;
+}
+
+ImageDataStructure ImageDataStructure::operator&(const ImageDataStructure& other)const {
+	int newHeight = std::min(m_height, other.m_height);
+	int newWidth = std::min(m_width, other.m_width);
+
+	ImageDataStructure result(newHeight, newWidth);
+
+	for (int i = 0; i < newHeight; i++) {
+		for (int j = 0; j < newWidth; j++) {
+			result.m_data[i][j] & m_data[i][j]; 
+		}
+	}
+
+	for (int i = 0; i < other.getHeight(); i++) {
+		for (int j = 0; j < other.getWidth(); j++) {
+			result.m_data[i][j + getWidth()] & other.m_data[i][j]; 
+		}
+	}
+	return result;
+}
+
+
+Pixel& ImageDataStructure::operator()(unsigned int y, unsigned int x) {
+	if (y >= m_height || x >= m_width) {
+		throw std::out_of_range("Index out of range");
+	}
+	return m_data[y][x];
+}
+
+const Pixel& ImageDataStructure::operator()(unsigned int y, unsigned int x) const {
+	if (y >= m_height || x >= m_width) {
+		throw std::out_of_range("Index out of range");
+	}
+	return m_data[y][x];
+}
+
+ImageDataStructure ImageDataStructure::operator~()const {
+	ImageDataStructure result(*this);
+
+	for (int i = 0; i < result.m_height; i++) {
+		for (int j = 0; j < result.m_width; j++) {
+			result.m_data[i][j] == BLACK ? result.m_data[i][j] = WHITE
+				: result.m_data[i][j] == BLACK;
+		}
+	}
+	return result;
+}
+
+
+
+
+
+
+
+
+
+

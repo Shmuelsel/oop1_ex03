@@ -1,53 +1,40 @@
 #pragma once
-#include "Pixel.h"
 #include "ImageDataStructure.h"
+//#include "Pixel.h"
+#include <iosfwd>
+#include <iostream>
 
 
 class Image
 {
+private:
+	ImageDataStructure m_matrix;
+	
 public:
 	Image();
-	Image(int height, int width);
+	Image(int, int);
 	Image(int height, int width, Pixel pixel);
+	Image(const ImageDataStructure& matrix):
+		m_matrix(matrix) {};
 
-	//getters
-	int GetHeight() const;
-	int GetWidth() const;
+	int getHeight() const;
+	int getWidth() const;
 
 
-	//operator==
 	bool operator==(const Image& other) const;
-	//operator!=
 	bool operator!=(const Image& other) const;
-	//operator|
 	Image operator|(const Image& other) const;
-	//operator&
 	Image operator&(const Image& other) const;
-	//operator|=, return reference to *this because lhs is modified
 	Image& operator|=(const Image& other);
-	//operator&=, return reference to *this because lhs is modified
 	Image& operator&=(const Image& other);
-	//operator+
 	Image operator+(const Image& other) const;
-	//operator+=, return reference to *this because lhs is modified
 	Image& operator+=(const Image& other);
-	//operatorA*n
 	Image operator*(const int n) const;
-	//operator*=, return reference to *this because lhs is modified
 	Image& operator*=(const int n);
-	//operator~
 	Image operator~() const;
-	//operatorA(x,y), can writh or read
-	Image operator()(unsigned int x, unsigned int y);
-	//operatorA(x,y)=, only read
-	Image operator()(unsigned int x, unsigned int y) const ;
-	//operator<<
+	Pixel& operator()(unsigned int x, unsigned int y);
+	const Pixel& operator()(unsigned int x, unsigned int y) const ;
 	friend std::ostream& operator<<(std::ostream& os, const Image& image);
-
-private:
-	ImageDataStructure m_data;
-
 };
 
-//operator<<
 std::ostream& operator<<(std::ostream& os, const Image& image);
