@@ -13,12 +13,13 @@ std::ostream& operator<<(std::ostream& os, const Pixel& pixel) {
 	return os << pixel.m_color;
 }
 
+
 bool Pixel::operator==(const Pixel& other) const {
-	return this->m_color == other.m_color;
+	return (this->m_color == other.m_color);
 }
 
-bool Pixel::operator!=(const Pixel& other) const {
-	return !(*this == other);
+bool operator!=(const Pixel& lhs, const Pixel& rhs) {
+	return !(lhs == rhs);
 }
 
 Pixel Pixel::operator|(const Pixel& other) const{
@@ -39,10 +40,16 @@ Pixel Pixel::operator&(const Pixel& other) const{
 	}
 }
 
-Pixel& Pixel::operator|=(const Pixel& other) {
-	return *this = *this | other;
+Pixel& operator|=(Pixel& lhs, const Pixel& rhs) {
+	return lhs = lhs | rhs;
 }
 
-Pixel& Pixel::operator&=(const Pixel& other) {
-	return *this = *this & other;
+Pixel& operator&=(Pixel& lhs, const Pixel& rhs) {
+	return lhs = lhs & rhs;
+}
+
+Pixel& Pixel::operator=(const Pixel& other)
+{
+	m_color = other.m_color;
+	return *this;
 }

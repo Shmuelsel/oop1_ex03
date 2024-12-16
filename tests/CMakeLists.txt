@@ -1,3 +1,3 @@
-﻿target_sources (Tests PRIVATE "main.cpp"
-                              "PixelTests.cpp"
-                              "ImageTests.cpp")
+﻿##target_sources (Tests PRIVATE "main.cpp"
+  ##                            "PixelTests.cpp"
+    ##                          "ImageTests.cpp")

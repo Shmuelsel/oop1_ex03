@@ -6,7 +6,7 @@ class Image;
 class ImageDataStructure
 {
 private:
-	Pixel** m_data;
+	Pixel** m_data = nullptr;
 	int m_height;
 	int m_width;
 
@@ -21,6 +21,7 @@ public:
 	int getHeight() const;
 	int getWidth() const;
 
+	ImageDataStructure& operator=(const ImageDataStructure&);
 	bool operator==(const ImageDataStructure& other) const;
 	bool operator!=(const ImageDataStructure& other) const;
 	ImageDataStructure operator+(const ImageDataStructure& other) const;
@@ -29,5 +30,6 @@ public:
 	Pixel& operator()(unsigned int y, unsigned int x);
 	const Pixel& operator()(unsigned int y, unsigned int x) const;
 	ImageDataStructure operator~() const;
+	friend std::ostream& operator<<(std::ostream&, const ImageDataStructure&);
 };
 	

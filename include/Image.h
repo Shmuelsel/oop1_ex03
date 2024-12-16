@@ -1,6 +1,5 @@
 #pragma once
 #include "ImageDataStructure.h"
-//#include "Pixel.h"
 #include <iosfwd>
 #include <iostream>
 
@@ -22,15 +21,10 @@ public:
 
 
 	bool operator==(const Image& other) const;
-	bool operator!=(const Image& other) const;
 	Image operator|(const Image& other) const;
 	Image operator&(const Image& other) const;
-	Image& operator|=(const Image& other);
-	Image& operator&=(const Image& other);
 	Image operator+(const Image& other) const;
-	Image& operator+=(const Image& other);
 	Image operator*(const int n) const;
-	Image& operator*=(const int n);
 	Image operator~() const;
 	Pixel& operator()(unsigned int x, unsigned int y);
 	const Pixel& operator()(unsigned int x, unsigned int y) const ;
@@ -38,3 +32,12 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& os, const Image& image);
+
+bool operator!=(const Image&, const Image&);
+Image& operator+=(Image&, const Image&);
+Image& operator|=(Image&, const Image&);
+Image& operator&=(Image&, const Image&);
+Image operator*(const int n, const Image&);
+Image& operator*=(Image&, const int n);
+Image& operator*=(const int n, Image&);
+//operator* *2 || operator*= from left and right
