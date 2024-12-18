@@ -1,7 +1,6 @@
 #pragma once
-#include "Pixel.h"
 
-class Image;
+#include "Pixel.h"
 
 class ImageDataStructure
 {
@@ -30,6 +29,7 @@ public:
 	Pixel& operator()(unsigned int y, unsigned int x);
 	const Pixel& operator()(unsigned int y, unsigned int x) const;
 	ImageDataStructure operator~() const;
+
 	friend std::ostream& operator<<(std::ostream&, const ImageDataStructure&);
 };
 	

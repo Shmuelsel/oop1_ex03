@@ -1,4 +1,3 @@
-#include <ostream>
 #include "Pixel.h"
 
 const unsigned char WHITE = (unsigned char)32;

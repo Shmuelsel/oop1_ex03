@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ImageDataStructure.h"
 #include <iosfwd>
 #include <iostream>
@@ -40,4 +41,3 @@ Image& operator&=(Image&, const Image&);
 Image operator*(const int n, const Image&);
 Image& operator*=(Image&, const int n);
 Image& operator*=(const int n, Image&);
-//operator* *2 || operator*= from left and right

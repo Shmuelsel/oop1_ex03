@@ -166,13 +166,13 @@ ImageDataStructure ImageDataStructure::operator~()const {
 
 std::ostream& operator<<(std::ostream& os, const ImageDataStructure& image)
 {
-	if (!image.m_data)
+	if (!image.m_data || image.m_height == 0 || image.m_width == 0) {
+		os << "Empty image." << std::endl;
 		return os;
+	}
 
-	for (int i = 0; i < image.m_height; i++)
-	{
-		for (int j = 0; j < image.m_width; j++)
-		{
+	for (int i = 0; i < image.m_height; i++) {
+		for (int j = 0; j < image.m_width; j++) {
 			os << image.m_data[i][j];
 		}
 		os << std::endl;
